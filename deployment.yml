@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: last-question-deployment
+  labels:
+    app: last-question
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: last-question
+  template:
+    metadata:
+      labels:
+        app: last-question
+    spec:
+      containers:
+        - name: last-question
+          image: '15758622001/tp2:latest'
+          ports:
+            - containerPort: 8080
