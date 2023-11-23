@@ -79,7 +79,7 @@ pipeline {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'AzureServicePrincipal', passwordVariable: 'AZURE_CLIENT_SECRET', usernameVariable: 'AZURE_CLIENT_ID')]) {
                         sh 'az aks install-cli'
-                        sh 'az aks get-credentials --resource-group $RESOURCE_GROUP --name $CLUSTER_NAME'
+                        sh 'az aks get-credentials --resource-group $RESOURCE_GROUP --name $CLUSTER_NAME --overwrite-existing'
                         sh 'kubectl apply -f deployment.yml'
                         sh 'kubectl apply -f service.yml'
                     }
