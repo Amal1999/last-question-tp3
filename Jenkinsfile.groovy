@@ -9,6 +9,7 @@ pipeline {
         REPO="devops"
         IMAGE_NAME="tp4"
         TAG="latest"
+        CLUSTER_NAME = "terraform-aks"
     }
     tools {
         maven "maven"
@@ -34,7 +35,6 @@ pipeline {
             steps {
                 script {
                     sh 'mvn test'
-                    // sh 'curl -sL https://aka.ms/InstallAzureCLIDeb | bash'
                 }
             }
         }
@@ -77,9 +77,12 @@ pipeline {
         stage('Deploy Application') {
             steps {
                 script {
-                    sh 'az aks install-cli'
-                    sh 'kubectl apply -f deployment.yml'
-                    sh 'kubectl apply -f service.yml'
+                    withCredentials([usernamePassword(credentialsId: 'AzureServicePrincipal', passwordVariable: 'AZURE_CLIENT_SECRET', usernameVariable: 'AZURE_CLIENT_ID')]) {
+                        sh 'az aks install-cli'
+                        sh 'az aks get-credentials --resource-group $RESOURCE_GROUP --name $CLUSTER_NAME'
+                        sh 'kubectl apply -f deployment.yml'
+                        sh 'kubectl apply -f service.yml'
+                    }
                 }
             }
         }
