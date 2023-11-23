@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
         - name: last-question
-          image: 'devops/tp4:latest'
+          image: 'tpgldevopsacr.azurecr.io/tp4:latest'
           ports:
             - containerPort: 8080
