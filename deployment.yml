@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
         - name: last-question
-          image: '15758622001/tp2:latest'
+          image: 'devops/tp4:latest'
           ports:
             - containerPort: 8080
