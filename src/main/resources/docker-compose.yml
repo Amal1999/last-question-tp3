@@ -1,3 +1,40 @@
+#version: "3"
+#services:
+#  mongodb:
+#    image: mongo:latest
+#    container_name: "mongodb"
+#    ports:
+#      - "27017:27017"
+#
+#  springboot-with-mongodb-container-one:
+#    image: tp2
+#    container_name: last-question
+#    ports:
+#      - "8080:8080"
+#    links:
+#      - mongodb
+#
+#  prometheus:
+#    image: prom/prometheus
+#    ports:
+#      - '9091:9090'
+#    command:
+#      - '--config.file=/etc/prometheus/prometheus.yml'
+#      - '--storage.tsdb.path=/prometheus'
+#      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+#      - '--web.console.templates=/usr/share/prometheus/consoles'
+#    depends_on:
+#      - springboot-with-mongodb-container-one
+#
+#  grafana:
+#    image: grafana/grafana
+#    container_name: grafana
+#    ports:
+#      - "3002:3000"
+#    depends_on:
+#      - prometheus
+
+
 version: "3"
 services:
   mongodb:
@@ -5,6 +42,7 @@ services:
     container_name: "mongodb"
     ports:
       - "27017:27017"
+
   springboot-with-mongodb-container-one:
     image: tp2
     container_name: last-question
@@ -12,3 +50,33 @@ services:
       - "8080:8080"
     links:
       - mongodb
+
+
+
+  alertmanager:
+    image: prom/alertmanager
+    ports:
+      - "9093:9093"
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yml'
+
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - '9091:9090'
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    depends_on:
+      - springboot-with-mongodb-container-one
+      - alertmanager
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3002:3000"
+    depends_on:
+      - prometheus
