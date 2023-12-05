@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Item Categories</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f4;
+      margin: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #008CBA;
+      color: white;
+    }
+
+    tr:hover {
+      background-color: #f5f5f5;
+    }
+  </style>
+</head>
+<body>
+<h2>Item Categories</h2>
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="category : ${categories}">
+    <td th:text="${category.id}"></td>
+    <td th:text="${category.name}"></td>
+    <td th:text="${category.description}"></td>
+    <td>
+      <a th:href="@{'/categories/' + ${category.id}}">View</a> |
+      <a th:href="@{'/categories/edit/' + ${category.id}}">Edit</a> |
+      <a th:href="@{'/categories/delete/' + ${category.id}}">Delete</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

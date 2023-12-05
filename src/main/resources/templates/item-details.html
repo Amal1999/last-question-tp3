@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Item Details</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    h2 {
+      color: #3498db;
+    }
+
+    dl {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    dt, dd {
+      padding: 10px;
+      border: 1px solid #ddd;
+    }
+
+    a {
+      text-decoration: none;
+      color: #3498db;
+    }
+
+    a:hover {
+      color: #2980b9;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px;
+      background-color: #3498db;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+
+    .btn:hover {
+      background-color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+<h2>Item Details</h2>
+<dl>
+  <dt>ID:</dt>
+  <dd th:text="${item.id}"></dd>
+
+  <dt>Name:</dt>
+  <dd th:text="${item.name}"></dd>
+
+  <dt>Description:</dt>
+  <dd th:text="${item.description}"></dd>
+
+  <dt>Price:</dt>
+  <dd th:text="${item.price}"></dd>
+
+  <dt>Category ID:</dt>
+  <dd th:text="${item.categoryId}"></dd>
+</dl>
+<a th:href="@{/items}" class="btn">Back to Item List</a>
+</body>
+</html>

@@ -1,6 +1,6 @@
 package com.mycompany.obitemservice;
 import com.mycompany.obitemservice.controller.ItemCategoryController;
-import com.mycompany.obitemservice.model.ItemCategoryModel;
+import com.mycompany.obitemservice.model.ItemCategory;
 import com.mycompany.obitemservice.repository.ItemCategoryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,19 +30,19 @@ class ItemCategoryControllerTest {
     @Test
     void testGetAllItemCategory() {
         // Arrange
-        ItemCategoryModel category1 = new ItemCategoryModel();
+        ItemCategory category1 = new ItemCategory();
         category1.setId("1");
         category1.setName("Category1");
 
-        ItemCategoryModel category2 = new ItemCategoryModel();
+        ItemCategory category2 = new ItemCategory();
         category2.setId("2");
         category2.setName("Category2");
 
-        List<ItemCategoryModel> categories = Arrays.asList(category1, category2);
+        List<ItemCategory> categories = Arrays.asList(category1, category2);
 
         when(itemCategoryRepository.findAll()).thenReturn(categories);
 
-        List<ItemCategoryModel> result = itemCategoryController.getAllItemCategory();
+        List<ItemCategory> result = itemCategoryController.getAllItemCategory();
 
         assertEquals(categories.size(), result.size());
     }
@@ -50,13 +50,13 @@ class ItemCategoryControllerTest {
     @Test
     void testGetItemCategory() {
         String categoryId = "1";
-        ItemCategoryModel category = new ItemCategoryModel();
+        ItemCategory category = new ItemCategory();
         category.setId(categoryId);
         category.setName("Category1");
 
         when(itemCategoryRepository.findById(categoryId)).thenReturn(Optional.of(category));
 
-        ItemCategoryModel result = itemCategoryController.getItemCategory(categoryId);
+        ItemCategory result = itemCategoryController.getItemCategory(categoryId);
 
         assertEquals(categoryId, result.getId());
     }

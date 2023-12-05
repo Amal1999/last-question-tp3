@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2>Item List</h2>
+
+    <!-- Add New Item Button and Modal -->
+    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">Add New Item</button>
+
+    <!-- Table for Displaying Items -->
+    <table class="table mt-3">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Category ID</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Iterate over items from Thymeleaf model -->
+        <tr th:each="item : ${items}">
+            <td th:text="${item.id}"></td>
+            <td th:text="${item.name}"></td>
+            <td th:text="${item.description}"></td>
+            <td th:text="${item.price}"></td>
+            <td th:text="${item.categoryId}"></td>
+            <td>
+                <!-- View Button -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" th:data-target="'#viewModal' + ${item.id}">View</button>
+
+                <!-- Edit Button -->
+                <button type="button" class="btn btn-warning" data-toggle="modal" th:data-target="'#editModal' + ${item.id}">Edit</button>
+
+                <!-- Delete Button -->
+                <button type="button" class="btn btn-danger" data-toggle="modal" th:data-target="'#deleteModal' + ${item.id}">Delete</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Modals for View/Edit/Delete -->
+    <div th:each="item : ${items}">
+        <!-- View Modal -->
+        <div class="modal fade" th:id="'viewModal' + ${item.id}" tabindex="-1" role="dialog" aria-labelledby="'viewModalLabel' + ${item.id}" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" th:text="${item.name}"></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p th:text="${item.description}"></p>
+                        <p><strong>Price:</strong> <span th:text="${item.price}"></span></p>
+                        <p><strong>Category ID:</strong> <span th:text="${item.categoryId}"></span></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Modal -->
+        <div class="modal fade" th:id="'editModal' + ${item.id}" tabindex="-1" role="dialog" aria-labelledby="'editModalLabel' + ${item.id}" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Item</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Add your form fields for editing here -->
+                        <form th:action="@{/items/{id}/edit(id=${item.id})}" method="post">
+                            <!-- Example: -->
+                            <div class="form-group">
+                                <label for="editName">Name</label>
+                                <input type="text" class="form-control" id="editName" name="name" th:value="${item.name}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="editDescription">Description</label>
+                                <input type="text" class="form-control" id="editDescription" name="description" th:value="${item.description}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="editPrice">Price</label>
+                                <input type="text" class="form-control" id="editPrice" name="price" th:value="${item.price}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="editCategoryId">Category ID</label>
+                                <input type="text" class="form-control" id="editCategoryId" name="categoryId" th:value="${item.categoryId}" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delete Modal -->
+        <div class="modal fade" th:id="'deleteModal' + ${item.id}" tabindex="-1" role="dialog" aria-labelledby="'deleteModalLabel' + ${item.id}" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Delete Item</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete this item?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <a th:href="@{/items/{id}/delete(id=${item.id})}" class="btn btn-danger">Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add New Item Modal -->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Item</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Add your form fields for adding a new item here -->
+                    <form role="form" th:action="@{/items}" th:object="${item}" method="post">
+                        <div class="form-group">
+                            <label for="addName">Name</label>
+                            <input type="text" class="form-control" id="addName" th:field="*{name}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="addDescription">Description</label>
+                            <input type="text" class="form-control" id="addDescription" th:field="*{description}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="addPrice">Price</label>
+                            <input type="text" class="form-control" id="addPrice" th:field="*{price}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="addCategoryId">Category ID</label>
+                            <input type="text" class="form-control" id="addCategoryId" th:field="*{categoryId}" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Item</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script><!-- Custom JS -->
+</body>
+</html>
