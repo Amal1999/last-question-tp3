@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: last-question
-          image: '15758622001/devops-mp:lts'
+          image: '15758622001/devops-mp:latest'
           ports:
             - containerPort: 8080
 

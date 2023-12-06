@@ -16,27 +16,27 @@ pipeline {
         terraform "terraform"
     }
     stages {
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/Amal1999/last-question-tp3.git'
-            }
-        }
+//        stage('Checkout') {
+//            steps {
+//                git 'https://github.com/Amal1999/last-question-tp3.git'
+//            }
+//        }
+//
+//        stage('Build') {
+//            steps {
+//                script {
+//                    sh 'mvn clean package'
+//                }
+//            }
+//        }
 
-        stage('Build') {
-            steps {
-                script {
-                    sh 'mvn clean package'
-                }
-            }
-        }
-
-        stage('Test') {
-            steps {
-                script {
-                    sh 'mvn test'
-                }
-            }
-        }
+//        stage('Test') {
+//            steps {
+//                script {
+//                    sh 'mvn test'
+//                }
+//            }
+//        }
 
         stage('Login to Azure with AzureServicePrincipal') {
             steps {
@@ -50,19 +50,19 @@ pipeline {
                 }
             }
         }
-
-        stage('Terraform Apply') {
-            steps {
-                script {
-                    withCredentials([usernamePassword(credentialsId: 'AZURE_USER', passwordVariable: 'AZURE_CLIENT_SECRET', usernameVariable: 'AZURE_CLIENT_ID')]) {
-                        sh 'az login -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET'
-                        sh 'terraform plan -out tfplan'
-                        sh 'terraform apply --auto-approve tfplan'
-                    }
-                }
-            }
-
-        }
+//
+//        stage('Terraform Apply') {
+//            steps {
+//                script {
+//                    withCredentials([usernamePassword(credentialsId: 'AZURE_USER', passwordVariable: 'AZURE_CLIENT_SECRET', usernameVariable: 'AZURE_CLIENT_ID')]) {
+//                        sh 'az login -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET'
+//                        sh 'terraform plan -out tfplan'
+//                        sh 'terraform apply --auto-approve tfplan'
+//                    }
+//                }
+//            }
+//
+//        }
 
         //stage('Build image') {
         //  steps {
@@ -73,22 +73,22 @@ pipeline {
         //}
         //}
 
-        stage('Build and Push Docker Image') {
-            steps {
-                script {
-                    withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
-                        // Build Docker image
-                        sh "docker build -t $DOCKER_USERNAME/$IMAGE_NAME:$TAG ."
-
-                        // Log in to Docker Hub
-                        sh "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
-
-                        // Push the Docker image to Docker Hub
-                        sh "docker push $DOCKER_USERNAME/$IMAGE_NAME:$TAG"
-                    }
-                }
-            }
-        }
+//        stage('Build and Push Docker Image') {
+//            steps {
+//                script {
+//                    withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+//                        // Build Docker image
+//                        sh "docker build -t $DOCKER_USERNAME/$IMAGE_NAME:$TAG ."
+//
+//                        // Log in to Docker Hub
+//                        sh "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
+//
+//                        // Push the Docker image to Docker Hub
+//                        sh "docker push $DOCKER_USERNAME/$IMAGE_NAME:$TAG"
+//                    }
+//                }
+//            }
+//        }
 
 
         stage('Deploy Application') {
