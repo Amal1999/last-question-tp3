@@ -37,32 +37,32 @@ pipeline {
 //                }
 //            }
 //        }
-
-        stage('Login to Azure with AzureServicePrincipal') {
-            steps {
-                script {
-                    withCredentials([usernamePassword(credentialsId: 'AzureServicePrincipal', passwordVariable: 'AZURE_CLIENT_SECRET', usernameVariable: 'AZURE_CLIENT_ID')]) {
-                        sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
-                        sh 'az account set -s $AZURE_SUBSCRIPTION_ID'
-                      //  sh 'terraform init'
-
-                    }
-                }
-            }
-        }
 //
-//        stage('Terraform Apply') {
+//        stage('Login to Azure with AzureServicePrincipal') {
 //            steps {
 //                script {
-//                    withCredentials([usernamePassword(credentialsId: 'AZURE_USER', passwordVariable: 'AZURE_CLIENT_SECRET', usernameVariable: 'AZURE_CLIENT_ID')]) {
-//                        sh 'az login -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET'
-//                        sh 'terraform plan -out tfplan'
-//                        sh 'terraform apply --auto-approve tfplan'
+//                    withCredentials([usernamePassword(credentialsId: 'AzureServicePrincipal', passwordVariable: 'AZURE_CLIENT_SECRET', usernameVariable: 'AZURE_CLIENT_ID')]) {
+//                        sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
+//                        sh 'az account set -s $AZURE_SUBSCRIPTION_ID'
+//                        sh 'terraform init'
+//
 //                    }
 //                }
 //            }
-//
 //        }
+
+        stage('Terraform Apply') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'AZURE_USER', passwordVariable: 'AZURE_CLIENT_SECRET', usernameVariable: 'AZURE_CLIENT_ID')]) {
+                        sh 'az login -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET'
+//                        sh 'terraform plan -out tfplan'
+//                        sh 'terraform apply --auto-approve tfplan'
+                    }
+                }
+            }
+
+        }
 
         //stage('Build image') {
         //  steps {
