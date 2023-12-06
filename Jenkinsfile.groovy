@@ -25,8 +25,8 @@ pipeline {
 
         stage("build & SonarQube analysis") {
             steps {
-                withSonarQubeEnv('My SonarQube Server') {
-                    sh 'mvn clean package sonar:sonar'
+                withSonarQubeEnv(installationName:'sonarqube') {
+                    sh 'mvn clean package org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar'
                 }
             }
         }
