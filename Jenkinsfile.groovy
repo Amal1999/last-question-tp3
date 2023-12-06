@@ -2,13 +2,12 @@ pipeline {
     agent any
 
     environment {
-        JD_IMAGE='devops-mp'
         AZURE_SUBSCRIPTION_ID='9ae5c229-9413-4920-bd6d-4b8b0ea5d15d'
         AZURE_TENANT_ID='dbd6664d-4eb9-46eb-99d8-5c43ba153c61'
         CONTAINER_REGISTRY='tpgldevopsacr'
         RESOURCE_GROUP='aks_terraform_rg'
         REPO="devops"
-        IMAGE_NAME="tp4"
+        IMAGE_NAME="devops-mp"
         TAG="latest"
         CLUSTER_NAME = "terraform-aks"
     }
