@@ -65,26 +65,11 @@ pipeline {
 
         }
 
-        stage('Build Docker Image') {
-            steps {
-                sh "docker build -t 15758622001/${env.JD_IMAGE}:lts -f Dockerfile ."
-            }
-        }
-        stage('Push to DockerHub') {
-            steps {
-                withCredentials([usernamePassword(credentialsId:'dockerhub_credentials', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
-                    sh 'docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD docker.io'
-                    sh 'docker push 15758622001/${env.JD_IMAGE}:lts'
-                }
-            }
-        }
-
-
         //stage('Build image') {
         //  steps {
         //    withCredentials([usernamePassword(credentialsId: 'AZURE_USER', passwordVariable: 'AZURE_CLIENT_SECRET', usernameVariable: 'AZURE_CLIENT_ID')]) {
         //      sh 'az acr login --name $CONTAINER_REGISTRY --resource-group $RESOURCE_GROUP'
-        //    sh 'az acr build --verbose --image $REPO/$IMAGE_NAME:$TAG --registry $CONTAINER_REGISTRY --file Dockerfile . '
+        //      sh 'az acr build --verbose --image $REPO/$IMAGE_NAME:$TAG --registry $CONTAINER_REGISTRY --file Dockerfile . '
         //}
         //}
         //}
