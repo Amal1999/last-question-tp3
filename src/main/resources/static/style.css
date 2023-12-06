@@ -19,6 +19,10 @@ th {
     background-color: #f2f2f2;
 }
 
+thead {
+    background-color: #e1f5fc;
+}
+
 a {
     text-decoration: none;
     color: #3498db;

@@ -12,4 +12,5 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class ItemCategory {
     private String id;
     private String name;
+    private String description;
 }
