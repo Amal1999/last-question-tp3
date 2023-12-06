@@ -34,7 +34,7 @@ public class ItemCategoryController {
         return "categories";
     }
 
-    @GetMapping("/categories1")
+    @GetMapping("/categories")
     public List<ItemCategory> getAllItemCategory() {
         return itemCategoryRepository.findAll();
     }
