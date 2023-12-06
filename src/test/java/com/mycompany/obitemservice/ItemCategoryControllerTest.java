@@ -29,6 +29,10 @@ public class ItemCategoryControllerTest {
     @MockBean
     private ItemCategoryRepository itemCategoryRepository;
 
+    @MockBean
+    private ItemRepository itemRepository;
+
+
     @Test
     public void testViewHomePage() throws Exception {
         // Mock your repository data
